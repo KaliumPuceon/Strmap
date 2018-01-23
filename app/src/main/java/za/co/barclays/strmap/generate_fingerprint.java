@@ -8,14 +8,23 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 public class generate_fingerprint extends AppCompatActivity {
+
+    boolean isRecorded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +33,7 @@ public class generate_fingerprint extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        isRecorded = false;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -57,16 +67,18 @@ public class generate_fingerprint extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    String line;
 
     public void incrementProgressBar(View v) {
 
+        Button save = findViewById(R.id.SaveButton);
         ProgressBar prog = findViewById(R.id.scanCount);
         int progress = prog.getProgress();
         prog.setProgress(progress+10);
         if (prog.getProgress()==100) {
 
-            prog.setProgress(0);
+            isRecorded = true;
+            save.setEnabled(true);
 
         }
 
@@ -77,13 +89,27 @@ public class generate_fingerprint extends AppCompatActivity {
 
         results = wifi.getScanResults();
 
-        String line = "";
 
         for (int k = 0; k < results.size(); k++)
         {
-            line = line + "\n"+(results.get(k).SSID + ": " + results.get(k).BSSID + ": " + results.get(k).level);
+            line = line + "\n"+(results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level);
         }
+
+        line = line + "\n***";
 
 
     }
+
+
+    public void saveCurrentPrint(View v) throws IOException {
+
+        EditText roomID = findViewById(R.id.numberInput);
+        EditText display = findViewById(R.id.textDisplay);
+        String localops = line;
+
+        display.setText(localops);
+
+    }
+
+
 }
