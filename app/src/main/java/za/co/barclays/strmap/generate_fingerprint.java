@@ -16,8 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
@@ -25,22 +23,35 @@ import java.util.List;
 public class generate_fingerprint extends AppCompatActivity {
 
     boolean isRecorded;
+    String line;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_fingerprint);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         isRecorded = false;
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Scan Cleared", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                    isRecorded = false;
+                    line = "";
+                    ProgressBar prog = findViewById(R.id.scanCount);
+                    prog.setProgress(0);
+                    Button save = findViewById(R.id.SaveButton);
+                    save.setEnabled(false);
+                    EditText display = findViewById(R.id.textDisplay);
+                    display.setText("");
+                    Button scan = findViewById(R.id.button);
+                    scan.setEnabled(true);
+
             }
         });
     }
@@ -64,21 +75,32 @@ public class generate_fingerprint extends AppCompatActivity {
             return true;
         }
 
+        isRecorded = false;
+        line = "";
+        ProgressBar prog = findViewById(R.id.scanCount);
+        prog.setProgress(0);
+        Button save = findViewById(R.id.SaveButton);
+        save.setEnabled(false);
+        EditText display = findViewById(R.id.textDisplay);
+        display.setText("");
+
         return super.onOptionsItemSelected(item);
     }
 
-    String line;
+
 
     public void incrementProgressBar(View v) {
 
         Button save = findViewById(R.id.SaveButton);
         ProgressBar prog = findViewById(R.id.scanCount);
+        Button scan = findViewById(R.id.button);
         int progress = prog.getProgress();
         prog.setProgress(progress+10);
         if (prog.getProgress()==100) {
 
             isRecorded = true;
             save.setEnabled(true);
+            scan.setEnabled(false);
 
         }
 
@@ -100,12 +122,24 @@ public class generate_fingerprint extends AppCompatActivity {
 
     }
 
+    private void writeToFile(String data,String filename,Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
 
     public void saveCurrentPrint(View v) throws IOException {
 
         EditText roomID = findViewById(R.id.numberInput);
         EditText display = findViewById(R.id.textDisplay);
         String localops = line;
+
+        writeToFile(localops,roomID.getText().toString()+".txt",getApplicationContext());
 
         display.setText(localops);
 
