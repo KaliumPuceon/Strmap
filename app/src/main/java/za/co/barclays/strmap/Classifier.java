@@ -33,9 +33,19 @@ public class Classifier {
 
     }
 
-    public void generate_fingerprint(String s){
+    public void setFingerprint(ArrayList<String> list){
 
-        
+        fingerprint = list;
+
+    }
+
+    public float getWholeScore(ArrayList<String> reading){
+
+        for (int k=0;k<reading.size();k++) {
+
+
+
+        }
 
     }
 
