@@ -117,8 +117,7 @@ public class generate_fingerprint extends AppCompatActivity {
             line = line + "\n"+(results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level);
         }
 
-        line = line + "\n***";
-
+        line = line + "\n";
 
     }
 
