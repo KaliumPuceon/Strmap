@@ -30,11 +30,31 @@ public class Classifier {
 
     public float getWholeScore(ArrayList<ScanResult> scan){
 
-        for (int k=0;k<scan.size();k++) {
+        float score = 0;
 
+        for (int k=0;k<fingerprint.size();k++) {
 
+            String searchMac = fingerprint.get(k).getMac_address();
+            int j = 0;
+            boolean found = false;
+            ScanResult comparison = null;
+
+            while ((j <= scan.size()) && (! found)){
+
+                if (scan.get(j).BSSID.equals(searchMac)) {
+
+                    found = true;
+                    comparison = scan.get(j);
+
+                }
+
+            }
+
+            score += fingerprint.get(j).scoreMac(comparison.level);
 
         }
+
+        return score/fingerprint.size();
 
     }
 
