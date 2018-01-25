@@ -12,10 +12,10 @@
     <ProgressBar
         android:id="@+id/scanCount"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="200dp"
+        android:layout_width="233dp"
         android:layout_height="65dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:progress="0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,31 +46,96 @@
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <EditText
-        android:id="@+id/numberInput"
-        android:layout_width="201dp"
-        android:layout_height="51dp"
+        android:id="@+id/textDisplay"
+        android:layout_width="335dp"
+        android:layout_height="129dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
-        android:inputType="number"
-        android:text="1"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/oneCap"
+        android:layout_width="239dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:onClick="oneScan"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/SaveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/SaveButton"
         app:layout_constraintTop_toBottomOf="@+id/scanCount" />
 
     <EditText
-        android:id="@+id/textDisplay"
-        android:layout_width="335dp"
-        android:layout_height="338dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:id="@+id/pickRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="@+id/PickRoomNumber"
+        app:layout_constraintTop_toBottomOf="@+id/oneCap" />
+
+    <EditText
+        android:id="@+id/PickRoomNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/pickAreaID"
+        app:layout_constraintTop_toBottomOf="@+id/pickRoom" />
+
+    <EditText
+        android:id="@+id/pickAreaID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SaveButton" />
+        app:layout_constraintTop_toBottomOf="@+id/PickRoomNumber" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="RoomName"
+        android:textColor="@android:color/background_dark"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/pickRoom"
+        app:layout_constraintTop_toTopOf="@+id/pickRoom" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="RoomID"
+        android:textColor="@android:color/background_dark"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/PickRoomNumber"
+        app:layout_constraintTop_toTopOf="@+id/PickRoomNumber" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="AreaID"
+        android:textColor="@android:color/background_dark"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/pickAreaID"
+        app:layout_constraintTop_toTopOf="@+id/pickAreaID" />
 </android.support.constraint.ConstraintLayout>

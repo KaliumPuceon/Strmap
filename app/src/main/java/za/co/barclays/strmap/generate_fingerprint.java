@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
@@ -106,7 +107,6 @@ public class generate_fingerprint extends AppCompatActivity {
         }
 
         WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        int size = 0;
         List<ScanResult> results;
         wifi.startScan();
 
@@ -115,32 +115,39 @@ public class generate_fingerprint extends AppCompatActivity {
 
         for (int k = 0; k < results.size(); k++)
         {
-            line = line + "\n"+(results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level);
-        }
-
+            line = line + "\n"+(results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level); }
 
     }
 
-    private void writeToFile(String data,String filename,Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
+    public void oneScan(View v) {
+
+        line = "";
+        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        List<ScanResult> results;
+        wifi.startScan();
+        results = wifi.getScanResults();
+        for (int k = 0; k < results.size(); k++) {
+            line = line + "\n" + (results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level);
         }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+
+        EditText display = findViewById(R.id.textDisplay);
+        String localops = line;
+
+        display.setText(localops);
+
     }
 
     public void saveCurrentPrint(View v) throws IOException {
 
-        EditText roomID = findViewById(R.id.numberInput);
         EditText display = findViewById(R.id.textDisplay);
         String localops = line;
 
-        writeToFile(localops,roomID.getText().toString()+".txt",getApplicationContext());
-
         display.setText(localops);
+
+        String filename = "SAVE HERE";
+        FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
+        fos.write(localops.getBytes());
+        fos.close();
 
     }
 
