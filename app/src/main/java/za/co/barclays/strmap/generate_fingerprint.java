@@ -99,7 +99,7 @@ public class generate_fingerprint extends AppCompatActivity {
         ProgressBar prog = findViewById(R.id.scanCount);
         Button scan = findViewById(R.id.button);
         int progress = prog.getProgress();
-        prog.setProgress(progress+5);
+        prog.setProgress(progress+10);
         if (prog.getProgress()==100) {
 
             isRecorded = true;
@@ -114,10 +114,16 @@ public class generate_fingerprint extends AppCompatActivity {
 
         results = wifi.getScanResults();
 
+        EditText display = findViewById(R.id.textDisplay);
+
+        EditText pickRoomName = findViewById(R.id.pickRoom);
+        EditText pickRoomID = findViewById(R.id.pickRoomID);
+        EditText pickAreaID = findViewById(R.id.pickAreaID);
+
 
         for (int k = 0; k < results.size(); k++)
         {
-            line = line + (results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level)+"\n";
+            line = line +pickRoomID.getText() +"," +pickRoomName.getText()+","+pickAreaID.getText()+","+(results.get(k).SSID + "," + results.get(k).BSSID + "," + results.get(k).level)+"\n";
         }
 
     }
@@ -125,24 +131,27 @@ public class generate_fingerprint extends AppCompatActivity {
     public void oneScan(View v) {
 
         line = "";
-        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        List<ScanResult> results;
-        wifi.startScan();
-        results = wifi.getScanResults();
-        for (int k = 0; k < results.size(); k++) {
-            line = line + (results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level)+"\n";
-        }
 
         EditText display = findViewById(R.id.textDisplay);
-        String localops = line;
 
         EditText pickRoomName = findViewById(R.id.pickRoom);
         EditText pickRoomID = findViewById(R.id.pickRoomID);
         EditText pickAreaID = findViewById(R.id.pickAreaID);
 
+        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        List<ScanResult> results;
+        wifi.startScan();
+        results = wifi.getScanResults();
+        for (int k = 0; k < results.size(); k++) {
+            line = line+pickRoomID.getText() +"|" +pickRoomName.getText()+"|"+pickAreaID.getText()+(results.get(k).SSID +"|" +results.get(k).BSSID+"|"+results.get(k).level)+"\n";
+        }
+
+
+        String localops = line;
         display.setText(localops);
 
-        String filename = String.valueOf(pickRoomName.getText())+"Reading"+String.valueOf(pickRoomID.getText())+"-"+String.valueOf(pickAreaID.getText())+".txt";
+        String filename = String.valueOf(pickRoomName.getText())+"reading"+String.valueOf(pickRoomID.getText())+String.valueOf(pickAreaID.getText())+".txt";
         filename = filename;
         File file;
         FileOutputStream outputStream;
@@ -174,7 +183,7 @@ public class generate_fingerprint extends AppCompatActivity {
 
         display.setText(localops);
 
-        String filename = String.valueOf(pickRoomName.getText())+String.valueOf(pickRoomID.getText())+"-"+String.valueOf(pickAreaID.getText())+".txt";
+        String filename = String.valueOf(pickRoomName.getText())+String.valueOf(pickRoomID.getText())+String.valueOf(pickAreaID.getText())+".txt";
         filename = filename;
         File file;
         FileOutputStream outputStream;
