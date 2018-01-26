@@ -12,11 +12,12 @@
     <ProgressBar
         android:id="@+id/scanCount"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="233dp"
+        android:layout_width="214dp"
         android:layout_height="65dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:onClick="incrementAreaID"
         android:progress="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button"
@@ -52,11 +53,13 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pickAreaID" />
 
     <Button
         android:id="@+id/oneCap"
@@ -65,7 +68,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:onClick="oneScan"
-        android:text="Button"
+        android:text="Scan Once"
         app:layout_constraintBottom_toBottomOf="@+id/SaveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/SaveButton"
@@ -79,11 +82,11 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintEnd_toEndOf="@+id/PickRoomNumber"
+        app:layout_constraintEnd_toEndOf="@+id/pickRoomID"
         app:layout_constraintTop_toBottomOf="@+id/oneCap" />
 
     <EditText
-        android:id="@+id/PickRoomNumber"
+        android:id="@+id/pickRoomID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -101,7 +104,7 @@
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PickRoomNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/pickRoomID" />
 
     <TextView
         android:id="@+id/textView"
@@ -124,8 +127,8 @@
         android:text="RoomID"
         android:textColor="@android:color/background_dark"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/PickRoomNumber"
-        app:layout_constraintTop_toTopOf="@+id/PickRoomNumber" />
+        app:layout_constraintEnd_toStartOf="@+id/pickRoomID"
+        app:layout_constraintTop_toTopOf="@+id/pickRoomID" />
 
     <TextView
         android:id="@+id/textView3"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -97,7 +99,7 @@ public class generate_fingerprint extends AppCompatActivity {
         ProgressBar prog = findViewById(R.id.scanCount);
         Button scan = findViewById(R.id.button);
         int progress = prog.getProgress();
-        prog.setProgress(progress+10);
+        prog.setProgress(progress+5);
         if (prog.getProgress()==100) {
 
             isRecorded = true;
@@ -115,7 +117,8 @@ public class generate_fingerprint extends AppCompatActivity {
 
         for (int k = 0; k < results.size(); k++)
         {
-            line = line + "\n"+(results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level); }
+            line = line + (results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level)+"\n";
+        }
 
     }
 
@@ -127,14 +130,37 @@ public class generate_fingerprint extends AppCompatActivity {
         wifi.startScan();
         results = wifi.getScanResults();
         for (int k = 0; k < results.size(); k++) {
-            line = line + "\n" + (results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level);
+            line = line + (results.get(k).SSID + "|" + results.get(k).BSSID + "|" + results.get(k).level)+"\n";
         }
 
         EditText display = findViewById(R.id.textDisplay);
         String localops = line;
 
+        EditText pickRoomName = findViewById(R.id.pickRoom);
+        EditText pickRoomID = findViewById(R.id.pickRoomID);
+        EditText pickAreaID = findViewById(R.id.pickAreaID);
+
         display.setText(localops);
 
+        String filename = String.valueOf(pickRoomName.getText())+"Reading"+String.valueOf(pickRoomID.getText())+"-"+String.valueOf(pickAreaID.getText())+".txt";
+        filename = filename;
+        File file;
+        FileOutputStream outputStream;
+        try {
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filename);
+
+            outputStream = new FileOutputStream(file);
+            outputStream.write(localops.getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void incrementAreaID(View v){
+        EditText pickAreaID = findViewById(R.id.pickAreaID);
+        int number = Integer.parseInt(String.valueOf(pickAreaID.getText()));
+        pickAreaID.setText(number+1);
     }
 
     public void saveCurrentPrint(View v) throws IOException {
@@ -142,12 +168,25 @@ public class generate_fingerprint extends AppCompatActivity {
         EditText display = findViewById(R.id.textDisplay);
         String localops = line;
 
+        EditText pickRoomName = findViewById(R.id.pickRoom);
+        EditText pickRoomID = findViewById(R.id.pickRoomID);
+        EditText pickAreaID = findViewById(R.id.pickAreaID);
+
         display.setText(localops);
 
-        String filename = "SAVE HERE";
-        FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
-        fos.write(localops.getBytes());
-        fos.close();
+        String filename = String.valueOf(pickRoomName.getText())+String.valueOf(pickRoomID.getText())+"-"+String.valueOf(pickAreaID.getText())+".txt";
+        filename = filename;
+        File file;
+        FileOutputStream outputStream;
+        try {
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filename);
+
+            outputStream = new FileOutputStream(file);
+            outputStream.write(localops.getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
